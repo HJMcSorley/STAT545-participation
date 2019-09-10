@@ -1,6 +1,6 @@
 # Helpful GitHub Links
 here is the URL to __STAT 545 homepage__ repository (repo)
-[STAT 545 Home] (https://github.com/STAT545-UBC/STAT545-home)
+ [STAT 545 Home](https://github.com/STAT545-UBC/STAT545-home)
 
 the _Organization_ (org) account that this repo is under/corresponds to:
 https://github.com/STAT545-UBC
