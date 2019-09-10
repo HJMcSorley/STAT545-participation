@@ -1,0 +1,36 @@
+---
+title: "ioslides-101"
+author: "Hannah McSorley"
+date: "10/09/2019"
+output: ioslides_presentation
+---
+
+a level 2 header will start a new slide
+```{r load_packages, warning = FALSE, echo = FALSE}
+# labelling your chunks will help you in future endeavours
+# hide the warnings about which version each package was made under
+# echo = FALSE means the code will NOT be shown in your knited output
+library(gapminder)
+library(tibble)
+library(DT)
+```
+
+## Practice with some chunk work
+Print out 'gapminder' data
+
+```{r dataset}
+gapminder  # life expectancy, GDP info for different parts of the world
+# you'll be using this dataset throughout the course
+```
+
+Convert the 'mpcars' dataset to a tibble format and datatable format
+
+```{r}
+as_tibble(mtcars)  # tibble table has info about object class
+mtcars  # basic dataframe format
+datatable(mtcars)  # navigatable table, very tidy
+```
+
+make a comment inline
+<!--this is an inline comment-->
+note that it's helpful to use the syntax package::function (e.g. DT::datatable) because it helps to identify which package you're using without adding a comment (also helpful if you have several packages that might have some similar functions)
