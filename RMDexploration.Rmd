@@ -19,6 +19,8 @@ library(DT)
 ```
 New! make a change (in GitHub) -- to explore conflicts between local and remote 
 
+New! make a change now -- to explore conflicts between local and remote 
+
 # Practice with some chunk work
 Print out 'gapminder' data
 
