@@ -17,6 +17,7 @@ library(gapminder)
 library(tibble)
 library(DT)
 ```
+New! make a change (in GitHub) -- to explore conflicts between local and remote 
 
 # Practice with some chunk work
 Print out 'gapminder' data
