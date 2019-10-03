@@ -203,10 +203,17 @@ We're starting with the same plot as above, but instead of the points + boxplot,
 ```{r, fig.width = 5, fig.height = 2}
 gapminder %>% 
   filter(continent == "Americas") %>% 
-  ggplot(aes(country, lifeExp)) + 
-  geom_point() +
-  geom_boxplot()
+  ggplot(aes(y = country, x = lifeExp)) + 
+  ggridges::geom_density_ridges() + # you have to switch x and y from box to ridge
+  
+
 ```
+
+# ------------------------------
+
+ENDED HERE OCT 03
+
+# -----------------------------
 
 ## Exercise 6: Bar plot madness
 

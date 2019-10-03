@@ -112,8 +112,15 @@ email %>%
   separate_rows(guest, sep = ", ")
 ```
 
-Finished for the day 
-_ _ _ _ _ _ 
+
+
+# _ _ _ _ _ _ 
+
+## Finished for the day 
+# _ _ _ _ _ _ 
+
+#####################################################
+# Picking up here -- 2019-10-03
 
 ## Exercise 3: Making tibbles
 
@@ -125,9 +132,12 @@ _ _ _ _ _ _
 
 ```{r}
 n <- 100
-FILL_THIS_IN(label = FILL_THIS_IN,
-             FILL_THIS_IN = rnorm(n),
-             FILL_THIS_IN)
+tibble(label = "Sample A",
+             x = rnorm(n),     # rnorm generates random variables
+             y = x + rnorm(n))
+
+# this wouldn't work if you were building a dataframe
+# tibble (and dplyr in general) can work sequentially within a function
 ```
 
 
@@ -153,7 +163,9 @@ experiment <- tibble(
   measurement_1 = runif(6),
   measurement_2 = runif(6)
 )
-experiment %>% expand(name, trt, rep)
+experiment %>% complete(nesting(name, trt), rep)  # complete turns missing values that are implicit to explicit
+# nesting groups treats them like a set?
+
 ```
 
 
