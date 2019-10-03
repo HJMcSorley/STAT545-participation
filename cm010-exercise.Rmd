@@ -1,0 +1,166 @@
+---
+title: "cm010 Exercises: Tibble Joins"
+author: "Hannah McSorley"
+date: "03/10/2019"
+output: 
+  html_document:
+    keep_md: true
+    theme: paper
+---
+
+## Requirements
+
+You will need Joey's `singer` R package for this exercise. And to install that, you'll need to install `devtools`. Running this code in your console should do the trick:
+
+```
+install.packages("devtools")
+devtools::install_github("JoeyBernhardt/singer")
+```
+
+Load required packages:
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(singer)
+knitr::opts_chunk$set(fig.width=4, fig.height=3, warning = FALSE, fig.align = "center")
+```
+
+<!---The following chunk allows errors when knitting--->
+
+```{r allow errors, echo = FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+
+## Exercise 1: `singer`
+
+The package `singer` comes with two smallish data frames about songs. Let's take a look at them (after minor modifications by renaming and shuffling):
+
+```{r}
+
+# song, artist name and year it was released
+(time <- as_tibble(songs) %>% 
+   rename(song = title))
+```
+
+```{r}
+# song, artist and city it was released in 
+(album <- as_tibble(locations) %>% 
+   select(title, everything()) %>% 
+   rename(album = release,
+          song  = title))
+```
+
+
+1. We really care about the songs in `time`. But, which of those songs do we know its corresponding album?
+
+```{r}
+# you want a filtering join
+# take time tible, find matching cases where the city is known
+time %>% 
+  semi_join(album, by = c("song", "artist_name"))  # filtering join keeps cases from 'time' where there are matching cases in the tibble 'album'
+
+```
+
+2. Go ahead and add the corresponding albums to the `time` tibble, being sure to preserve rows even if album info is not readily available.
+
+```{r}
+# preserve everything in original tibble (left), but add data if it's available
+time %>% 
+  left_join(album, by = c("song", "artist_name"))
+```
+
+3. Which songs do we have "year", but not album info?
+
+```{r}
+# filtering join
+time %>% 
+  semi_join(album, by = "song")
+```
+
+4. Which artists are in `time`, but not in `album`?
+
+```{r}
+time %>% 
+  anti_join(album, by = "artist_name")
+```
+
+
+5. You've come across these two tibbles, and just wish all the info was available in one tibble. What would you do?
+
+```{r}
+# bring 'em all together
+time %>% 
+  full_join(album, by = c("song", "artist_name"))  # with JUST name, it creates two columns for artist_name.x and .y
+
+# full_join returns the same tibble if the df's are swapped, but the order of column names changes
+```
+
+
+## Exercise 2: LOTR
+
+## starting here
+
+Load in the three Lord of the Rings tibbles that we saw last time:
+
+```{r}
+fell <- read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Fellowship_Of_The_Ring.csv")
+ttow <- read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Two_Towers.csv")
+retk <- read_csv("https://raw.githubusercontent.com/jennybc/lotr-tidy/master/data/The_Return_Of_The_King.csv")
+```
+
+1. Combine these into a single tibble.
+
+```{r}
+bind_rows(fell, ttow, retk)
+```
+
+2. Which races are present in "The Fellowship of the Ring" (`fell`), but not in any of the other ones?
+
+```{r}
+fell %>% 
+  anti_join(ttow, by = "Race") %>%   # remove rows
+  anti_join(retk, by = "Race")       # remove more rows
+```
+
+
+
+## Exercise 3: Set Operations
+
+Let's use three set functions: `intersect`, `union` and `setdiff`. We'll work with two toy tibbles named `y` and `z`, similar to Data Wrangling Cheatsheet
+
+```{r}
+(y <-  tibble(x1 = LETTERS[1:3], x2 = 1:3))
+```
+
+```{r}
+(z <- tibble(x1 = c("B", "C", "D"), x2 = 2:4))
+```
+
+1. Rows that appear in both `y` and `z`
+
+```{r}
+intersect(y, z)
+inner_join(y, z)
+```
+
+2. You collected the data in `y` on Day 1, and `z` in Day 2. Make a data set to reflect that.
+
+```{r}
+union(
+  mutate(y, day = "Day 1"),
+  mutate(z, day = "Day 2")
+)
+
+# or you could use bind_rows (mayb better -- won't let anything be removed)
+bind_rows(
+  mutate(y, day = "Day 1"),
+  mutate(z, day = "Day 2")
+)
+
+```
+
+3. The rows contained in `z` are bad! Remove those rows from `y`.
+
+```{r}
+dplyr::setdiff(y, z)  # take what's in y (verified) and filter out what's in z (recall)
+```
