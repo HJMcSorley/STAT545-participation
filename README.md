@@ -3,6 +3,8 @@ This is the participation repo for STAT 545, 2019/2020
 
 This repo contains learning exercises carried out in class, which count towards 'participation' marks.
 
+Each Class Meeting (cm) exercise is listes as cm000#, with the number indicating the class (e.g cm0006 is the in-class exercise for meeting #6). Each exercise was pushed to GitHub following completion of the class.
+
 :smile: :ok_hand: 
 
 ## GitHub Pages
